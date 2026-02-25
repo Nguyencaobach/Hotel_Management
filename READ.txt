@@ -19,8 +19,24 @@ npm init -y
 
 # Cài đặt các thư viện cốt lõi
 npm install express express-handlebars pg express-session cors dotenv
+npm install pg dotenv
 
 # Cài đặt nodemoon
 npm install -D nodemon
 
+# Tối ưu hóa cache
+npm install compression
+npm install memory-cache
+
 # Khởi chạy server: npm run dev 
+
+5. Tối ưu hóa server
+- Caching (Bộ nhớ đệm): 
+    Cách hoạt động: Người thứ 1 vào xem trang, server mất 0.5s để tạo HTML. 
+    Bạn lưu cục HTML này vào RAM (hoặc Redis) và cài đặt thời gian sống là 5 phút. 
+    Từ người thứ 2 đến người thứ 10.000 (trong vòng 5 phút đó), server chỉ việc lôi cục HTML có sẵn ra trả về. 
+    Thời gian xử lý giảm xuống chỉ còn 0.01s!
+
+    Áp dụng ở đâu: Dùng cho các trang ít bị thay đổi dữ liệu liên tục 
+    (VD: Trang chủ, danh sách phòng, bài viết giới thiệu). 
+    Không dùng cache cho trang Giỏ hàng hay Dashboard cá nhân.

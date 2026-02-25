@@ -13,11 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-handlebars": "^8.0.3",
     "express-session": "^1.19.0",
+    "memory-cache": "^0.2.0",
     "pg": "^8.18.0"
   },
   "devDependencies": {
