@@ -1,0 +1,37 @@
+<div class="login-wrapper mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+            <h2 class="card-title text-primary fw-bold mb-2">InnkeeperHub</h2>
+            <p class="text-muted mb-4">Đăng nhập vào hệ thống</p>
+
+            {{#if error}}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {{/if}}
+
+            <form action="/auth/login" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-semibold">Tên đăng nhập</label>
+                    <input type="text" class="form-control form-control-lg" id="username" name="username" required
+                        placeholder="username">
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Mật khẩu</label>
+                    <div class="position-relative">
+                        <input type="password" class="form-control form-control-lg pe-5" id="password" name="password"
+                            required placeholder="password">
+                        <span id="togglePassword" class="toggle-password" title="Hiện/Ẩn mật khẩu">
+                            <i class="fa-regular fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">Đăng nhập</button>
+
+                <button type="button" class="btn btn-link">Quên mật khẩu?</button>
+            </form>
+        </div>
+    </div>
+</div>

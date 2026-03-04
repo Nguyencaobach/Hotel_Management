@@ -1,0 +1,99 @@
+{{!-- Layout Dashboard Quản lý --}}
+<div class="dashboard-layout">
+
+    {{!-- ===== SIDEBAR TRÁI ===== --}}
+    <aside class="sidebar-left">
+        <div class="sidebar-brand">
+            <span>Innkeeper Hub</span>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Dash Board</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-dashboard">
+                        <li><a href="#"><i class="fa-solid fa-chart-line me-2"></i>Thống kê Doanh thu</a></li>
+                        <li><a href="#"><i class="bi bi-file-bar-graph me-2"></i>Tổng quan</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="bi bi-building"></i>
+                        <span>Quản lý phòng</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-room-management">
+                        <li><a href="#"><i class="fa-solid fa-pen-to-square me-2"></i>Quản lý loại phòng</a></li>
+                        <li><a href="#"><i class="fa-solid fa-people-roof me-2"></i>Quản lý chi tiết phòng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="bi bi-building"></i>
+                        <span>Quản lý nhân viên</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-employee-management">
+                        <li><a href="#"><i class="fa-solid fa-user-gear me-2"></i>Chi tiết nhân viên</a></li>
+                        <li><a href="#"><i class="fa-solid fa-user-clock me-2"></i>Hoạt động nhân viên</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <span>Warehouse</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Customer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <span>Cost Incurred</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>Instructions</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    {{!-- ===== KHU VỰC CHÍNH ===== --}}
+    <div class="dashboard-main">
+
+        {{!-- TOP NAVBAR --}}
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <button class="btn-hamburger" id="btnToggleSidebar" title="Mở/Đóng menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="navbar-right">
+                <span class="user-greeting">
+                    <i class="fa-regular fa-user me-1"></i>
+                    {{user.username}}
+                </span>
+                <a href="/logout" class="btn btn-sm btn-outline-secondary ms-3">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất
+                </a>
+            </div>
+        </header>
+
+        {{!-- NỘI DUNG - ĐỂ TRỐNG --}}
+        <main class="main-content-area">
+        </main>
+
+    </div>
+</div>
