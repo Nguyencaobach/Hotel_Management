@@ -1,0 +1,86 @@
+Chúng ta sẽ chia làm 3 giai đoạn chính: Khởi động Server, Tải giao diện (GET), và Xử lý đăng nhập (POST).
+
+GIAI ĐOẠN 1: KHI BẠN GÕ LỆNH npm run dev (Khởi động Server)
+Đây là lúc hệ thống bắt đầu thức dậy và chuẩn bị sẵn sàng đón khách.
+
+- server.js: Đây là điểm bắt đầu (Entry point) của toàn bộ ứng dụng.
+
+- Nó sẽ gọi file src/config/db.js để chạy hàm testConnection(), kết nối lên Azure PostgreSQL.
+
+- Tiếp theo, nó import app từ file app.js.
+
+- app.js: Khi được import, file này sẽ chạy từ trên xuống dưới để cài đặt "đồ nghề":
+
+- Bật nén file (compression), bật cors, cấu hình đọc dữ liệu form (express.urlencoded).
+
+- Cài đặt Handlebars làm View Engine.
+
+- Khai báo thư mục public để chứa CSS, JS, Hình ảnh.
+
+# Quan trọng: Nó nạp các tuyến đường (Routes), ví dụ: "Ai vào /auth thì giao cho file authRoutes xử lý".
+
+# Quay lại server.js: Hàm app.listen(PORT) được gọi, server chính thức mở cửa ở cổng 3000 chờ người dùng.
+
+===============================================================================================
+GIAI ĐOẠN 2: KHI NGƯỜI DÙNG MỞ TRÌNH DUYỆT VÀO http://localhost:3000/auth/login (Luồng GET)
+Đây là quá trình tải cái form giao diện ra màn hình.
+
+- Trình duyệt (Browser) gửi yêu cầu: "Cho tôi xem trang đăng nhập!".
+
+- app.js nhận yêu cầu. Nó dò thấy đường dẫn có chữ /auth, liền quăng yêu cầu này sang cho file src/routes/auth.js.
+
+- src/routes/auth.js kiểm tra: "À, đây là request GET /login". Nó bắt đầu gọi các hàm theo thứ tự từ trái sang phải:
+
+- Hàm 1: cacheHTML(5) (trong src/middlewares/shared/cache.js): Hàm này kiểm tra xem trong RAM đã có sẵn giao diện HTML của trang login này chưa. Nếu có rồi -> Trả về luôn (nhanh x100 lần). Nếu chưa có -> Cho phép đi tiếp bước sau.
+
+- Hàm 2: getLoginPage (trong src/controllers/authController.js): Hàm này làm nhiệm vụ ra lệnh cho View Engine: "Hãy đi lấy cái file giao diện lên đây".
+
+- src/views/pages/login.hbs (View): Handlebars sẽ lấy khung HTML chung (layouts/main.hbs), nhét form đăng nhập (login.hbs) vào giữa, ráp thành 1 trang HTML hoàn chỉnh.
+
+- Trình duyệt nhận được cục HTML, đọc thêm file style.css trong thư mục public để tô màu, và hiển thị form ra cho người dùng.
+
+===========================================================================================================
+GIAI ĐOẠN 3: KHI NGƯỜI DÙNG ĐIỀN FORM VÀ BẤM NÚT "ĐĂNG NHẬP" (Luồng POST)
+Đây là luồng xử lý dữ liệu phức tạp nhất, đi qua đầy đủ các tầng của MVC.
+
+- Trình duyệt gói tài khoản và mật khẩu lại, gửi một request POST đến địa chỉ /auth/login.
+
+- app.js lại nhận được, lại quăng sang cho src/routes/auth.js.
+
+- src/routes/auth.js thấy request là POST, nó lập tức gọi hàm processLogin nằm trong Controller. (Ở bước này không qua Cache, vì POST không được phép cache).
+
+- src/controllers/authController.js (Controller bắt đầu làm việc):
+
+- Nó bóc gói hàng ra, lấy được biến username và password.
+
+- Truy vấn Database xem tài khoản này có thật không, liền gọi hàm findUserByUsername(username) nằm bên Model.
+
+- src/models/userModel.js (Model giao tiếp với DB):
+
+- Sử dụng câu lệnh SQL (SELECT...).
+
+- Đi qua src/config/db.js (Pool) chạy câu lệnh SQL đó lên con server PostgreSQL trên Azure.
+
+- Lấy được dữ liệu về (hoặc không thấy ai), nó trả kết quả đó ngược lại cho Controller.
+
+- src/controllers/authController.js (Controller ra quyết định):
+
+- Lấy dữ liệu Model vừa trả về. Nó tự hỏi: "Có user này không? Mật khẩu gửi lên có khớp với mật khẩu trong DB không?".
+
+# Nếu ĐÚNG: Nó ra lệnh res.send("Đăng nhập thành công") (Hoặc sau này là res.redirect('/dashboard')).
+
+# Nếu SAI: Nó gọi lại file View login.hbs, nhưng lần này nó gửi kèm thêm một biến error: "Sai mật khẩu!". Trang HTML được tạo lại, hiện dòng chữ đỏ báo lỗi, và gửi về lại trình duyệt.
+
+==========================================================================================================
+GIAI ĐOẠN 4: NẾU CÓ LỖI BẤT NGỜ (Sập DB, lỗi code...)
+- Giả sử ở Bước 5, Database Azure bị mất mạng, hàm findUserByUsername bị lỗi và "chết".
+
+- Trong authController.js, vì chúng ta dùng try...catch, lỗi sẽ rơi vào khối catch(error).
+
+- Hàm next(error) được gọi. Câu lệnh này có nghĩa là: "Bỏ qua hết các bước tiếp theo đi, nhảy thẳng tới trạm y tế (Error Handler) cứu thương!".
+
+- Yêu cầu sẽ chuyển về app.js, trượt xuống tận dòng code dưới cùng: app.use(globalErrorHandler).
+
+- File src/middlewares/errorHandler.js đứng ra nhận lỗi, nó gọi file giao diện src/views/pages/error.hbs để in ra một trang báo lỗi đẹp đẽ cho người dùng (thay vì văng ra một đống code rối rắm khiến ứng dụng bị sập).
+
+- Tóm tắt ngắn gọn nhất: Route (Chia đường) -> Controller (Xử lý logic, ra quyết định) -> Model (Lấy dữ liệu DB) -> Controller -> View (Hiển thị).
