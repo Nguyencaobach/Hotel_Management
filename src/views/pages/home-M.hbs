@@ -1,0 +1,191 @@
+{{!-- ===== STYLES CHO TRANG MANAGER (quản lý tập trung từ partials/_manager-styles.hbs) ===== --}}
+{{> _manager-styles}}
+
+{{!-- Layout Dashboard Quản lý --}}
+<div class="dashboard-layout">
+
+    {{!-- ===== SIDEBAR TRÁI ===== --}}
+    <aside class="sidebar-left">
+        <div class="sidebar-brand">
+            <span>Innkeeper Hub</span>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>DashBoard</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-dashboard">
+                        <li><a href="#" class="nav-action" data-action="revenue-stats"><i
+                                    class="bi bi-file-bar-graph me-2"></i>Thống kê doanh thu</a></li>
+                        <li><a href="#" class="nav-action" data-action="overview"><i
+                                    class="bi bi-file-bar-graph me-2"></i>Tổng quan</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="bi bi-building"></i>
+                        <span>Quản lý phòng</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-room-management">
+                        <li><a href="#" class="nav-action" data-action="room-types"><i
+                                    class="fa-solid fa-pen-to-square me-2"></i>Quản lý loại phòng</a></li>
+                        <li><a href="#" class="nav-action" data-action="room-details"><i
+                                    class="fa-solid fa-people-roof me-2"></i>Quản lý chi tiết phòng</a></li>
+                        <li><a href="#" class="nav-action" data-action="booking-management"><i 
+                                    class="fa-solid fa-circle-check me-2"></i>Quản lý đặt và thuê phòng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">  
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span>Quản lý nhân viên</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-employee-management">
+                        <li><a href="#" class="nav-action" data-action="employee-management"><i
+                                    class="fa-solid fa-user-gear me-2"></i>Chi tiết nhân viên</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-people-group"></i>
+                        <span>Quản lý khách hàng</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-customer-management">
+                        <li><a href="#" class="nav-action" data-action="customer-management"><i
+                                    class="fa-solid fa-user-gear me-2"></i>Chi tiết khách hàng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <span>Quản lý kho hàng</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-inventory-management">
+                        <li><a href="#" class="nav-action" data-action="category-management"><i
+                                    class="fa-solid fa-tags me-2"></i>Danh mục sản phẩm</a></li>
+                        <li><a href="#" class="nav-action" data-action="product-management"><i
+                                    class="fa-solid fa-boxes-stacked me-2"></i>Chi tiết kho hàng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-bell-concierge"></i>
+                        <span>Quản lý dịch vụ</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-service-management">
+                        <li><a href="#" class="nav-action" data-action="service-management"><i
+                                    class="fa-solid fa-gears me-2"></i>Dịch vụ chung</a></li>
+                        <li><a href="#" class="nav-action" data-action="coupon-management"><i
+                                    class="fa-solid fa-ticket me-2"></i>Mã giảm giá</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Thông báo</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-notification">
+                        <li><a href="#"><i class="fa-solid fa-bell me-2"></i>Thông báo chung</a></li>
+                        <li><a href="#"><i class="fa-solid fa-envelope me-2"></i>Thông báo khách hàng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Xuất báo cáo PDF</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-report">
+                        <li><a href="#"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Báo cáo doanh thu</a></li>
+                        <li><a href="#"><i class="fa-solid fa-truck-ramp-box me-2"></i>Báo cáo tồn kho</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-percent"></i>
+                        <span>Báo cáo thuế</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-report">
+                        <li><a href="#"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Báo cáo doanh thu</a></li>
+                        <li><a href="#"><i class="fa-solid fa-truck-ramp-box me-2"></i>Báo cáo tồn kho</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link submenu-toggle">
+                        <i class="fa-solid fa-user-clock"></i>
+                        <span>Nhật ký hoạt động</span>
+                        <i class="fa-solid fa-chevron-down arrow ms-auto"></i>
+                    </a>
+                    <ul class="submenu" id="menu-activity-log">
+                        <li><a href="#" class="nav-action" data-action="activity-log"><i
+                                    class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử hệ thống</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu open">
+                    <a href="#" class="nav-link nav-action" data-action="account-setting">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Cài đặt tài khoản</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    {{!-- ===== KHU VỰC CHÍNH ===== --}}
+    <div class="dashboard-main">
+
+        {{!-- TOP NAVBAR --}}
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <button class="btn-hamburger" id="btnToggleSidebar" title="Mở/Đóng menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="navbar-right">
+                <span class="user-greeting">
+                    Xin chào, {{user.full_name}}
+                </span>
+                <a href="/auth/logout" class="btn btn-sm btn-outline-secondary ms-3">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất
+                </a>
+            </div>
+        </header>
+
+        {{!-- NỘI DUNG - ĐỂ TRỐNG --}}
+        <main class="main-content-area">
+            {{!-- Module Thống kê doanh thu tạm thời --}}
+            <div id="revenue-stats-module" class="dashboard-module" style="display: none;">
+                <div class="container mt-4 text-center">
+                    <h2><i class="fa-solid fa-chart-line me-2"></i> Thống kê doanh thu</h2>
+                    <p class="text-muted mt-3">Chức năng này đang được phát triển...</p>
+                </div>
+            </div>
+            {{> room-types-management-M}}
+            {{> room-details-management-M}}
+            {{> employee-management-M}}
+            {{> customer-management-M}}
+            {{> category-management-M}}
+            {{> product-management-M}}
+            {{> service-management-M}}
+            {{> discount-management-M}}
+            {{> activity-log-M}}
+            {{> dashboard-overview-M}}
+            {{> account-setting-M}}
+            {{> booking-management-M}}
+        </main>
+
+    </div>
+</div>
+
+{{> _manager-scripts}}

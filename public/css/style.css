@@ -1,0 +1,151 @@
+/* =========================================
+   CẤU HÌNH CSS CHUNG & RESET
+========================================= */
+
+:root {
+    --light-blue: #015CE0;
+    --white: #ffffff;
+    --light-black: #333333;
+
+    --bo-goc-form: 25px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--light-blue);
+}
+
+/* App-container thành một Flexbox khổng lồ chiếm toàn màn hình */
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+}
+
+/* =========================================
+   CẤU HÌNH Trang LOGIN
+========================================= */
+
+.login-wrapper {
+    width: 100%;
+}
+
+.login-wrapper .card {
+    background-color: var(--white);
+    border-radius: var(--bo-goc-form);
+    /* Dùng biến bo góc */
+    overflow: hidden;
+}
+
+.login-wrapper .card-title {
+    color: var(--mau-chu-dao);
+    font-size: 40px;
+    text-align: center;
+    /* Căn giữa chữ */
+    font-weight: bold;
+}
+
+.login-wrapper .text-muted {
+    color: #042c83;
+    font-size: 20px;
+    text-align: center;
+    /* Lệnh này giúp căn giữa chữ */
+    font-weight: bold;
+}
+
+.login-wrapper .btn-link {
+    display: block;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    color: var(--light-black);
+    font-size: 18px;
+}
+
+.login-wrapper .form-control {
+    font-size: 16px;
+}
+
+/* Nút con mắt ẩn/hiện mật khẩu */
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--light-black);
+    font-size: 1rem;
+}
+
+.toggle-password:hover {
+    color: #015CE0;
+}
+
+
+/* =========================================
+   1. ĐIỆN THOẠI DI ĐỘNG (Dưới 768px)
+========================================= */
+@media (max-width: 767px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .login-wrapper {
+        max-width: 100%;
+    }
+}
+
+/* =========================================
+   2. MÁY TÍNH BẢNG (Từ 768px đến 1023px)
+========================================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .app-container {
+        padding: 30px;
+    }
+
+    .login-wrapper {
+        width: 450px;
+        /* Khống chế độ rộng để form không bị bẹp */
+    }
+}
+
+/* =========================================
+   3. LAPTOP / DESKTOP (Từ 1024px đến 1199px)
+========================================= */
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .app-container {
+        padding: 40px;
+    }
+
+    .login-wrapper {
+        width: 450px;
+    }
+}
+
+/* =========================================
+   4. LARGE DESKTOP (Từ 1200px trở lên)
+========================================= */
+@media (min-width: 1200px) {
+    .app-container {
+        padding: 60px;
+    }
+
+    .login-wrapper {
+        width: 500px;
+        /* Màn hình to thì cho form to ra một chút */
+    }
+}

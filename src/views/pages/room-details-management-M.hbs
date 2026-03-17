@@ -1,0 +1,291 @@
+﻿<div id="room-details-module" class="dashboard-module" style="display: none;">
+
+    <div id="rd-step1-types">
+        <h4 class="mb-4"><i class="fa-solid fa-bed me-3"></i>Danh sách loại phòng chi tiết</h4>
+        <div class="row g-4" id="rd-types-grid">
+            <div class="col-12 text-center text-muted">Đang tải danh sách loại phòng...</div>
+        </div>
+    </div>
+
+    <div id="rd-step2-rooms" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <button class="btn btn-outline-secondary btn-sm mb-3" onclick="RoomDetailManager.goBack()">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+                </button>
+                <h4 class="mb-4" id="rd-selected-type-name">Danh sách phòng: ...</h4>
+            </div>
+            <button class="btn btn-primary" id="btnAddRoomDetail">
+                <i class="fa-solid fa-plus me-1"></i> Thêm phòng mới
+            </button>
+        </div>
+
+        <div class="table-responsive bg-white p-3 rounded shadow-sm">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Số phòng</th>
+                        <th>Tầng</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi chú</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="roomDetailTableBody">
+                    <tr>
+                        <td colspan="5" class="text-center">Đang tải dữ liệu...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="roomDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="roomDetailModalLabel">Thêm phòng mới</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="roomDetailForm">
+                        <input type="hidden" id="rdId">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Số phòng *</label>
+                                <input type="text" class="form-control" id="rdRoomNumber" placeholder="VD: P101"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Tầng</label>
+                                <input type="number" class="form-control" id="rdFloor" placeholder="VD: 1" min="1">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Trạng thái</label>
+                            <select class="form-select" id="rdStatus">
+                                <option value="AVAILABLE">Phòng trống</option>
+                                <option value="MAINTENANCE">Đang sửa</option>
+                                <option value="CLEANING">Cần dọn dẹp</option>
+                                <option value="HOURLY_RENTED" hidden>Thuê theo giờ</option>
+                                <option value="DAILY_RENTED" hidden>Thuê theo ngày</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ghi chú</label>
+                            <textarea class="form-control" id="rdNotes" rows="2"
+                                placeholder="Tình trạng điều hòa, tivi..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveRoomDetail">Lưu dữ liệu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteRoomDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="mb-0 fs-5 text-dark">Bạn có chắc chắn muốn xóa phòng này?</p>
+                    <input type="hidden" id="deleteRoomDetailId">
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger px-4 fw-bold"
+                        id="btnConfirmDeleteRoomDetail">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="roomSetupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-images me-2"></i>Thiết lập không gian: <strong
+                            id="setupRoomTitle"></strong></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <form id="roomSetupForm">
+                        <input type="hidden" id="setupRoomId">
+
+                        <div class="card shadow-sm border-0 mb-3">
+                            <div class="card-body">
+                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">Thông tin chi tiết (Hiển thị
+                                    cho khách)</h6>
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Số người</label>
+                                        <input type="number" class="form-control" id="setupCapacity" placeholder="VD: 2"
+                                            min="1">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Diện tích (m²)</label>
+                                        <input type="number" class="form-control" id="setupSize" placeholder="VD: 25"
+                                            min="1">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Loại giường</label>
+                                        <input type="text" class="form-control" id="setupBed"
+                                            placeholder="VD: 1 Giường đôi lớn">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm border-0 mb-3">
+                            <div class="card-body">
+                                <label class="form-label fw-bold">Các tiện ích có trong phòng</label>
+                                <div class="row g-2 p-2 border rounded bg-white" id="setupAmenities">
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Wifi" id="am1"><label class="form-check-label"
+                                                for="am1"><i class="fa-solid fa-wifi me-1"></i> Wifi</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Smart TV" id="am2"><label
+                                                class="form-check-label" for="am2"><i class="fa-solid fa-tv me-1"></i>
+                                                Smart TV</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Điều hòa" id="am3"><label
+                                                class="form-check-label" for="am3"><i
+                                                    class="fa-regular fa-snowflake me-1"></i> Điều hòa</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Bồn tắm" id="am4"><label class="form-check-label"
+                                                for="am4"><i class="fa-solid fa-bath me-1"></i> Bồn tắm</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Tủ lạnh" id="am5"><label class="form-check-label"
+                                                for="am5"><i class="fa-solid fa-box-archive me-1"></i> Tủ lạnh</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Máy sấy" id="am6"><label class="form-check-label"
+                                                for="am6"><i class="fa-solid fa-wind me-1"></i> Máy sấy</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Dụng cụ nấu ăn" id="am7"><label
+                                                class="form-check-label" for="am7"><i
+                                                    class="fa-solid fa-utensils me-1"></i> Dụng cụ nấu ăn</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Ấm đun siêu tốc" id="am8"><label
+                                                class="form-check-label" for="am8"><i class="fa-solid fa-fire me-1"></i>
+                                                Ấm đun siêu tốc</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Áo choáng tắm" id="am9"><label
+                                                class="form-check-label" for="am9"><i
+                                                    class="fa-solid fa-tshirt me-1"></i> Áo choáng tắm</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Bàn ủi" id="am10"><label class="form-check-label"
+                                                for="am10"><i class="fa-solid fa-fire me-1"></i> Bàn ủi</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Máy giặt" id="am11"><label
+                                                class="form-check-label" for="am11"><i
+                                                    class="fa-solid fa-soap me-1"></i> Máy giặt</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Két sắt" id="am12"><label
+                                                class="form-check-label" for="am12"><i
+                                                    class="fa-solid fa-vault me-1"></i> Két sắt</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Lò vi sóng" id="am13"><label
+                                                class="form-check-label" for="am13"><i
+                                                    class="fa-solid fa-fire-burner me-1"></i> Lò vi sóng</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Cà phê / Trà miễn phí" id="am14"><label
+                                                class="form-check-label" for="am14"><i
+                                                    class="fa-solid fa-mug-hot me-1"></i> Cà phê/Trà</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Ban công" id="am15"><label
+                                                class="form-check-label" for="am15"><i
+                                                    class="fa-solid fa-mountain-sun me-1"></i> Ban công</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Bàn làm việc" id="am16"><label
+                                                class="form-check-label" for="am16"><i
+                                                    class="fa-solid fa-desktop me-1"></i> Bàn làm việc</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Ghế sofa" id="am17"><label
+                                                class="form-check-label" for="am17"><i
+                                                    class="fa-solid fa-couch me-1"></i> Ghế sofa</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-check"><input class="form-check-input setup-chk"
+                                                type="checkbox" value="Tủ quần áo" id="am18"><label
+                                                class="form-check-label" for="am18"><i
+                                                    class="fa-solid fa-door-closed me-1"></i> Tủ quần áo</label></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body">
+                                <label class="form-label fw-bold">Ảnh đại diện phòng (Tải 1 ảnh lên)</label>
+                                <input type="file" class="d-none" id="setupImageUpload" accept="image/*"
+                                    onchange="document.getElementById('setupFileName').textContent = this.files[0]?.name || 'Chưa chọn ảnh'">
+                                <div class="d-flex align-items-center gap-2 mt-1">
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="document.getElementById('setupImageUpload').click()">
+                                        <i class="fa-solid fa-image me-1"></i> Chọn ảnh...
+                                    </button>
+                                    <span id="setupFileName" class="text-muted small fst-italic">Chưa chọn ảnh</span>
+                                </div>
+
+                                <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>Kích
+                                    thước khuyên dùng: 800x450px (Tỷ lệ ngang 16:9)</small>
+
+                                <div id="setupImagePreview" class="mt-3"></div>
+                                <input type="hidden" id="setupExistingImage">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary px-4 fw-bold" id="btnSaveSetupRoom"><i
+                            class="fa-solid fa-cloud-arrow-up me-2"></i>Lưu thiết lập</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+#rd-step1-types h4 {
+    color: black;
+    /* Ví dụ: Đổi màu chữ thành cam */
+    font-size: 24px;
+    /* Ví dụ: Đổi cỡ chữ */
+    /* Ví dụ: In hoa toàn bộ chữ */
+    /* Bạn có thể thêm các thuộc tính CSS khác vào đây */
+}
+
+#rd-selected-type-name {
+    color: black;
+    /* Ví dụ: Đổi màu chữ thành xanh dương */
+    font-size: 20px;
+    /* Ví dụ: Đổi cỡ chữ */
+    font-weight: bold;
+    /* Ví dụ: In đậm chữ */
+    /* Bạn có thể thêm các thuộc tính CSS khác vào đây */
+}
+
+#btnAddRoomDetail {
+    background-color: #28a745;
+    /* Đổi màu nền — xanh lá ví dụ */
+    border-color: #28a745;
+    /* Đổi màu viền */
+    color: white;
+    /* Màu chữ */
+}

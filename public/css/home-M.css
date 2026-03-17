@@ -1,0 +1,515 @@
+/* =========================================
+   CSS TRANG HOME-M (Dashboard Quản lý)
+========================================= */
+
+/* --- Override app-container cho trang dashboard --- */
+.app-container:has(.dashboard-layout) {
+    padding: 0;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: #f4f6f9;
+}
+
+/* --- Layout tổng thể --- */
+.dashboard-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* =========================================
+   SIDEBAR TRÁI
+========================================= */
+.sidebar-left {
+    width: 260px;
+    min-height: 100vh;
+    background-color: var(--light-blue);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.sidebar-brand {
+    padding: 20px 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--white);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+}
+
+.sidebar-nav {
+    padding: 12px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Link cấp 1 */
+.sidebar-nav .nav-item .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-nav .nav-item .nav-link:hover,
+.sidebar-nav .nav-item.active>.nav-link {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+}
+
+.sidebar-nav .nav-item .nav-link i:first-child {
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Mũi tên submenu */
+.sidebar-nav .nav-item .arrow {
+    font-size: 11px;
+    transition: transform 0.3s ease;
+}
+
+/* Xoay mũi tên khi mở */
+.sidebar-nav .nav-item.open>.nav-link .arrow {
+    transform: rotate(180deg);
+}
+
+/* Submenu cấp 2 – ẩn mặc định, slide xuống khi có class .open */
+.sidebar-nav .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+/* Khi submenu được mở */
+.sidebar-nav .nav-item.open>.submenu {
+    max-height: 400px;
+    opacity: 1;
+}
+
+.sidebar-nav .submenu li a {
+    display: block;
+    padding: 8px 16px 8px 42px;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.sidebar-nav .submenu li a:hover {
+    color: var(--white);
+    padding-left: 50px;
+}
+
+/* Đổi cỡ chữ cho tất cả link cấp 1 sidebar */
+.sidebar-nav .nav-link.submenu-toggle span,
+.sidebar-nav .nav-link.nav-action span {
+    font-size: 17px;
+}
+
+/* =========================================
+   KHU VỰC CHÍNH
+========================================= */
+.dashboard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* TOP NAVBAR */
+.top-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 68px;
+    background-color: var(--white);
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.top-navbar .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top-navbar .page-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--light-black);
+    margin: 0;
+}
+
+.top-navbar .navbar-right {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--light-black);
+}
+
+.top-navbar .user-greeting {
+    font-weight: 500;
+}
+
+/* Nút hamburger */
+.btn-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--light-black);
+    padding: 6px 8px;
+    border-radius: 6px;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+}
+
+.btn-hamburger:hover {
+    background-color: #f0f0f0;
+}
+
+/* VÙNG NỘI DUNG */
+.main-content-area {
+    flex: 1;
+    padding: 24px;
+    background-color: #f4f6f9;
+}
+
+/* Overlay khi sidebar mở trên mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 999;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* =========================================
+   LOGOUT MODAL
+========================================= */
+.logout-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+}
+
+.logout-modal-backdrop.active {
+    display: flex;
+    animation: fadeInBackdrop 0.2s ease;
+}
+
+@keyframes fadeInBackdrop {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.logout-modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 32px 28px;
+    width: 360px;
+    max-width: calc(100vw - 40px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(24px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.logout-modal .modal-icon {
+    width: 64px;
+    height: 64px;
+    background-color: #fff3f3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+    color: #e74c3c;
+}
+
+.logout-modal h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+}
+
+.logout-modal p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 28px;
+    line-height: 1.6;
+}
+
+.logout-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.logout-modal-actions button {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel-logout {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.btn-cancel-logout:hover {
+    background-color: #e5e7eb;
+}
+
+.btn-confirm-logout {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.btn-confirm-logout:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
+}
+
+/* =========================================
+   1. ĐIỆN THOẠI DI ĐỘNG (Dưới 768px)
+========================================= */
+@media (max-width: 767px) {
+
+    /* Sidebar ẩn ngoài màn hình */
+    .sidebar-left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        width: 260px;
+    }
+
+    /* Khi sidebar được mở (JS thêm class) */
+    .sidebar-left.open {
+        transform: translateX(0);
+    }
+
+    /* Main chiếm toàn bộ chiều rộng */
+    .dashboard-main {
+        width: 100%;
+    }
+
+    .main-content-area {
+        padding: 16px;
+    }
+
+    .top-navbar .page-title {
+        font-size: 17px;
+    }
+}
+
+/* =========================================
+   2. MÁY TÍNH BẢNG (Từ 768px đến 1023px)
+========================================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* Sidebar ẩn ngoài màn hình */
+    .sidebar-left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        width: 260px;
+    }
+
+    /* Khi sidebar được mở */
+    .sidebar-left.open {
+        transform: translateX(0);
+    }
+
+    .dashboard-main {
+        width: 100%;
+    }
+
+    .main-content-area {
+        padding: 20px;
+    }
+}
+
+/* =========================================
+   3. LAPTOP / DESKTOP (Từ 1024px đến 1199px)
+========================================= */
+@media (min-width: 1024px) and (max-width: 1199px) {
+
+    /* Sidebar hiển thị thường, nút hamburger ẩn */
+    .btn-hamburger {
+        display: none;
+    }
+
+    .sidebar-left {
+        width: 260px;
+    }
+
+    .main-content-area {
+        padding: 24px;
+    }
+}
+
+/* =========================================
+   4. LARGE DESKTOP (Từ 1200px trở lên)
+========================================= */
+@media (min-width: 1200px) {
+
+    /* Sidebar hiển thị thường, nút hamburger ẩn */
+    .btn-hamburger {
+        display: none;
+    }
+
+    .sidebar-left {
+        width: 260px;
+    }
+
+    .main-content-area {
+        padding: 28px;
+    }
+}
+
+/* =========================================
+   NOTIFY MODAL (Thông báo giữa màn hình)
+========================================= */
+.notify-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.notify-backdrop.active {
+    display: flex;
+    animation: fadeInBackdrop 0.18s ease;
+}
+
+.notify-box {
+    background: #fff;
+    border-radius: 14px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    animation: slideUp 0.22s ease;
+}
+
+.notify-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.notify-header.success {
+    background-color: #0d6efd;
+}
+
+.notify-header.error {
+    background-color: #dc3545;
+}
+
+.notify-header.warning {
+    background-color: #ffc107;
+    color: #1a1a2e;
+}
+
+.notify-header i {
+    font-size: 20px;
+}
+
+.notify-body {
+    padding: 18px 20px 22px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+}
+
+.notify-close-bar {
+    height: 4px;
+    background-color: #0d6efd;
+    transform-origin: left;
+    animation: shrinkBar 3s linear forwards;
+}
+
+.notify-close-bar.error {
+    background-color: #dc3545;
+}
+
+.notify-close-bar.warning {
+    background-color: #ffc107;
+}
+
+@keyframes shrinkBar {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}

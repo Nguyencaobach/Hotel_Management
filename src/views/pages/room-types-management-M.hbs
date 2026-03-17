@@ -1,0 +1,91 @@
+<div id="room-types-module" class="dashboard-module" style="display: none;">
+    <div class="room-type-container">
+        <button class="btn btn-primary mb-4" id="btnAddRoomType">
+            <i class="fa-solid fa-plus"></i> Thêm loại phòng mới
+        </button>
+        <div class="table-responsive">
+            <table class="table table-hover table-room-type align-middle">
+                <thead>
+                    <tr>
+                        <th>Tên loại phòng</th>
+                        <th>Giá ngày</th>
+                        <th>Giá giờ</th>
+                        <th>Mô tả</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="roomTypeTableBody">
+                    <tr>
+                        <td colspan="5" class="text-center">Đang tải dữ liệu...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="roomTypeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomTypeModalLabel">Thêm loại phòng mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="roomTypeForm">
+                        <input type="hidden" id="rtId">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên loại phòng</label>
+                            <input type="text" class="form-control" id="rtName" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Giá ngày (vnđ)</label>
+                                <div class="price-input-wrapper">
+                                    <input type="text" class="form-control price-input" id="rtDailyPrice"
+                                        placeholder="VD: 500.000" autocomplete="off" required>
+                                    <span class="price-unit">vnđ</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Giá giờ (vnđ)</label>
+                                <div class="price-input-wrapper">
+                                    <input type="text" class="form-control price-input" id="rtHourlyPrice"
+                                        placeholder="VD: 80.000" autocomplete="off" required>
+                                    <span class="price-unit">vnđ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mô tả</label>
+                            <textarea class="form-control" id="rtDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveRoomType">Lưu dữ liệu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal xác nhận xóa -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"> <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>Xác nhận xóa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="mb-0 fs-5 text-dark">Bạn có chắc chắn muốn xóa loại phòng này?</p>
+                    <p class="text-muted mt-2 mb-0">Thao tác này không thể hoàn tác!</p>
+                    <input type="hidden" id="deleteRoomTypeId">
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger px-4 fw-bold" id="btnConfirmDelete">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
