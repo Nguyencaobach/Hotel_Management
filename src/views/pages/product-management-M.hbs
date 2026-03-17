@@ -1,0 +1,203 @@
+<div id="product-management-module" class="dashboard-module" style="display: none;">
+    <div class="room-type-container">
+        <h4 class="mb-4"><i class="fa-solid fa-boxes-stacked me-3"></i>Quản lý Sản phẩm & Tồn kho</h4>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="search-box d-flex gap-2" style="width: 50%;"> <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" id="searchProduct" placeholder="Tìm tên sản phẩm, mã SKU...">
+                </div>
+                <button class="btn btn-outline-secondary" id="btnScanBarcode" title="Quét mã vạch (Camera)">
+                    <i class="fa-solid fa-qrcode fs-5"></i>
+                </button>
+            </div>
+            <button class="btn btn-primary" id="btnAddProduct" style="background-color: #4CAF50 !important; border-color: #4CAF50 !important; color: #ffffff !important;">
+                <i class="fa-solid fa-plus"></i> Thêm sản phẩm gốc
+            </button>
+        </div>
+
+        <div class="table-responsive bg-white p-3 rounded shadow-sm">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mã SKU</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Đơn vị</th>
+                        <th>Giá bán lẻ</th>
+                        <th class="text-center">Tổng tồn kho</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <tr><td colspan="7" class="text-center">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="productModalLabel">Thêm sản phẩm mới</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="prodId">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mã SKU</label>
+                            <input type="text" class="form-control" id="prodSku" placeholder="Để trống hệ thống sẽ tự sinh mã 893...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên sản phẩm *</label>
+                            <input type="text" class="form-control" id="prodName" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Danh mục</label>
+                                <select class="form-select" id="prodCategory">
+                                    <option value="">-- Chọn danh mục --</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Đơn vị tính *</label>
+                                <input type="text" class="form-control" id="prodUnit" placeholder="VD: Lon, Chai, Thùng..." required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Giá bán lẻ ra (VNĐ)</label>
+                            <input type="text" class="form-control" id="prodRetailPrice" value="0">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveProduct">Lưu dữ liệu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="batchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl"> <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Nhập kho & Lô hàng: <strong id="batchProductName"></strong></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    
+                    <div class="card shadow-sm mb-4 border-0">
+                        <div class="card-body">
+                            <h6 class="card-title fw-bold text-success mb-3" id="batchFormTitle">Nhập lô hàng mới</h6>
+                            <input type="hidden" id="batchId">
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <label class="form-label">Mã lô (Tùy chọn)</label>
+                                    <input type="text" class="form-control form-control-sm" id="batchCode" placeholder="VD: LOHANG-01">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label fw-bold text-danger">Số lượng nhập *</label>
+                                    <input type="number" class="form-control form-control-sm border-danger" id="batchQuantity" min="0" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Giá nhập 1 SP</label>
+                                    <input type="number" class="form-control form-control-sm" id="batchImportPrice" value="0">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Ngày sản xuất</label>
+                                    <input type="date" class="form-control form-control-sm" id="batchMfg">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label fw-bold text-danger">Hạn sử dụng *</label>
+                                    <input type="date" class="form-control form-control-sm border-danger" id="batchExp">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Nhà cung cấp</label>
+                                    <input type="text" class="form-control form-control-sm" id="batchSupplier">
+                                </div>
+                            </div>
+                            <div class="mt-3 text-end">
+                                <button class="btn btn-sm btn-secondary d-none" id="btnCancelEditBatch">Hủy sửa</button>
+                                <button class="btn btn-sm btn-success" id="btnSaveBatch"><i class="fa-solid fa-download me-1"></i> Lưu lô hàng</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-2">Lịch sử các đợt nhập hàng</h6>
+                    <div class="table-responsive bg-white p-2 rounded border">
+                        <table class="table table-sm table-hover align-middle mb-0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Mã lô</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Số lượng tồn</th>
+                                    <th>Giá nhập</th>
+                                    <th>NSX</th>
+                                    <th>Hạn sử dụng</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th class="text-end">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="mb-0 fs-5 text-dark" id="deleteProductMsg">Bạn có chắc chắn muốn xóa?</p>
+                    <input type="hidden" id="deleteProductTargetId">
+                    <input type="hidden" id="deleteProductTargetType"> 
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger px-4 fw-bold" id="btnConfirmDeleteProduct">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="barcodeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">In Mã Vạch</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center" id="printBarcodeArea">
+                    <p class="fw-bold mb-1" id="printBarcodeName"></p>
+                    <svg id="barcodeCanvas"></svg> 
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" id="btnPrintBarcode"><i class="fa-solid fa-print"></i> In ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="scannerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-camera"></i> Đưa mã vạch vào khung hình</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" id="btnCloseScanner"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div id="reader" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
