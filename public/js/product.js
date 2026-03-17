@@ -67,6 +67,7 @@ const ProductManager = {
 			// =========================================================
 			const formatInputCurrency = (e) => {
 				let val = e.target.value;
+				val = val.replace(/[^0-9]/g, ""); // Xóa sạch mọi thứ không phải là số (chữ, dấu âm, dấu chấm...)
 				if (val !== "") {
 					val = parseInt(val, 10).toLocaleString("vi-VN"); // Thêm dấu chấm hàng nghìn
 				}
@@ -75,6 +76,7 @@ const ProductManager = {
 
 			const formatInputNumberOnly = (e) => {
 				// Chỉ dành cho Số lượng (Không có dấu chấm hàng nghìn, không âm)
+				e.target.value = e.target.value.replace(/[^0-9]/g, "");
 			};
 
 			// Gắn sự kiện lắng nghe khi gõ phím
@@ -222,7 +224,9 @@ const ProductManager = {
 		const id = document.getElementById("prodId").value;
 
 		// Loại bỏ ký tự thừa (dấu chấm) trước khi gửi xuống DB
-		const rawRetailPriceStr = document.getElementById("prodRetailPrice");
+		const rawRetailPriceStr = document
+			.getElementById("prodRetailPrice")
+			.value.replace(/[^0-9]/g, "");
 
 		const payload = {
 			sku: document.getElementById("prodSku").value,
@@ -424,8 +428,12 @@ const ProductManager = {
 		}
 
 		// Loại bỏ ký tự thừa, chỉ lấy số trước khi gửi xuống DB
-		const rawQtyStr = document.getElementById("batchQuantity");
-		const rawImportPriceStr = document.getElementById("batchImportPrice");
+		const rawQtyStr = document
+			.getElementById("batchQuantity")
+			.value.replace(/[^0-9]/g, "");
+		const rawImportPriceStr = document
+			.getElementById("batchImportPrice")
+			.value.replace(/[^0-9]/g, "");
 
 		const payload = {
 			batch_code: document.getElementById("batchCode").value,
