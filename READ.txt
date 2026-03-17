@@ -1,0 +1,45 @@
+Kỹ thuật sử dụng cho Ứng dụng Website Hotel Management
+
+1. Template Engine
+    Kỹ thuật này sử dụng việc tạo mẫu sẵn bộ khung giao diện có sẵn rồi sau đó đưa dữ liệu động
+    có thể thay đổi theo nhu cầu hoặc thời gian dựa vào vị trí được đánh dấu VD: {{title}}, {{name}}
+
+2. Server-Side Rendering - SSR
+    Cách hoạt động: Máy chủ sẽ lấy dữ liệu từ database, ghép vào file template Handlebars, 
+    tạo ra file HTML cuối cùng rồi mới gửi về cho trình duyệt của người dùng hiển thị.
+
+3. View Engine (Kiến trúc mô hình MVC)
+    Theo mô hình MVC (Model - View - Controller), thì Handlebars đóng vai trò là phần View (Giao diện), 
+    trong các framework như Express, nó được gọi tắt là View Engine.
+
+4. Quy tắc cài đặt
+
+# Khởi tạo package.json
+npm init -y
+
+# Cài đặt các thư viện cốt lõi
+npm install express express-handlebars pg express-session cors dotenv
+npm install pg dotenv
+
+# Cài đặt nodemoon
+npm install -D nodemon
+
+# Tối ưu hóa cache
+npm install compression
+npm install memory-cache
+
+# Khởi chạy server: npm run dev - ngrok http 3000
+
+# thư viện quản lý phiên đăng nhập:
+npm install express-session
+
+5. Tối ưu hóa server
+- Caching (Bộ nhớ đệm): 
+    Cách hoạt động: Người thứ 1 vào xem trang, server mất 0.5s để tạo HTML. 
+    Bạn lưu cục HTML này vào RAM (hoặc Redis) và cài đặt thời gian sống là 5 phút. 
+    Từ người thứ 2 đến người thứ 10.000 (trong vòng 5 phút đó), server chỉ việc lôi cục HTML có sẵn ra trả về. 
+    Thời gian xử lý giảm xuống chỉ còn 0.01s!
+
+    Áp dụng ở đâu: Dùng cho các trang ít bị thay đổi dữ liệu liên tục 
+    (VD: Trang chủ, danh sách phòng, bài viết giới thiệu). 
+    Không dùng cache cho trang Giỏ hàng hay Dashboard cá nhân.
